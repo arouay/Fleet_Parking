@@ -1,0 +1,15 @@
+{
+  "name": "algo",
+  "version": "1.0.0",
+  "description": "This project contains a clean implementation of the FizzBuzz exercise.  \r The exercise rules are described in the `fizzbuzz.md` file located at the root of this repository.",
+  "main": "fizzbuzz.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^30.3.0"
+  }
+}
