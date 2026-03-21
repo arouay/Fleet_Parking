@@ -1,7 +1,7 @@
 const { spawnSync } = require('child_process');
 const path = require('path');
 
-const fizzbuzzPath = path.resolve(__dirname, './fizzbuzz.js');
+const fizzbuzzPath = path.resolve(__dirname, '../src/fizzbuzz.js');
 
 describe('FizzBuzz CLI Integration Tests', () => {
   test('should output correct sequence up to 15', () => {

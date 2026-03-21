@@ -1,4 +1,4 @@
-const { getFizzBuzzValue } = require('./fizzbuzz');
+const { getFizzBuzzValue } = require('../src/fizzbuzz');
 
 describe('FizzBuzz Logic', () => {
   test('returns number as string when not divisible by 3 or 5', () => {
