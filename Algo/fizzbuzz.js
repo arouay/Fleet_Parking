@@ -1,17 +1,30 @@
+const DEFAULT_RULES = [
+  { divisor: 3, label: 'Fizz' },
+  { divisor: 5, label: 'Buzz' }
+];
+
 /**
- * Returns the FizzBuzz value for a given number.
+ * Computes the string representation of a number based on divisibility rules.
+ *
+ * - Appends the corresponding label for each rule where number % divisor === 0
+ * - Returns the concatenated labels if any rule matches
+ * - Otherwise returns the number as a string
  *
  * @param {number} number - The number to evaluate
- * @returns {string} - Fizz, Buzz, FizzBuzz, or the number as a string
+ * @param {Array<{divisor: number, label: string}>} [rules=DEFAULT_RULES] - Optional set of rules
+ * @returns {string} The computed value
  */
-const getFizzBuzzValue = (number) => {
-  let output = '';
+const getFizzBuzzValue = (number, rules = DEFAULT_RULES) => {
+  const parts = [];
 
-  if (number % 3 === 0) output += 'Fizz';
-  if (number % 5 === 0) output += 'Buzz';
+  for (const { divisor, label } of rules) {
+    if (number % divisor === 0) {
+      parts.push(label);
+    }
+  }
 
-  return output || String(number);
-}
+  return parts.length ? parts.join('') : String(number);
+};
 
 // Execute only if run directly (not during tests)
 if (require.main === module) {
@@ -22,11 +35,12 @@ if (require.main === module) {
     process.exit(1);
   }
 
-  const maxNumber = input;
-
-  for (let i = 1; i <= maxNumber; i++) {
-    console.log(getFizzBuzzValue(i));
+  const results = [];
+  for (let i = 1; i <= input; i++) {
+    results.push(getFizzBuzzValue(i));
   }
+
+  console.log(results.join('\n'));
 }
 
 module.exports = { getFizzBuzzValue };
