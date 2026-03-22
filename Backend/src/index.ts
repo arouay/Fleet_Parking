@@ -1,0 +1,9 @@
+export { Fleet } from './Domain/Entities/Fleet';
+export { Vehicle } from './Domain/Entities/Vehicle';
+export { Location } from './Domain/ValueObjects/Location';
+export { FleetRepository } from './Domain/Repositories/FleetRepository';
+export { RegisterVehicleCommand } from './App/Commands/RegisterVehicleCommand';
+export { ParkVehicleCommand } from './App/Commands/ParkVehicleCommand';
+export { RegisterVehicleHandler } from './App/Handlers/RegisterVehicleHandler';
+export { ParkVehicleHandler } from './App/Handlers/ParkVehicleHandler';
+export { InMemoryFleetRepository } from './Infra/InMemoryFleetRepository';
