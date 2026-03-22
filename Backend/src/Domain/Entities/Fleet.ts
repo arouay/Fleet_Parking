@@ -21,6 +21,10 @@ export class Fleet {
     return this.vehicles.has(vehicle.plateNumber);
   }
 
+  getRegisteredVehicles(): Vehicle[] {
+    return Array.from(this.vehicles.values());
+  }
+
   getVehicle(plateNumber: string): Vehicle {
     const vehicle = this.vehicles.get(plateNumber);
     if (!vehicle) {
@@ -37,9 +41,10 @@ export class Fleet {
   }
 
   getVehicleLocation(vehicle: Vehicle): Location | null {
-    if (!this.hasVehicle(vehicle)) {
+    const registered = this.vehicles.get(vehicle.plateNumber);
+    if (!registered) {
       throw new Error('Vehicle is not registered in this fleet');
     }
-    return vehicle.location;
+    return registered.location;
   }
 }

@@ -5,11 +5,11 @@ export class InMemoryFleetRepository implements FleetRepository {
   private fleets: Map<string, Fleet> = new Map();
   private nextId = 1;
 
-  save(fleet: Fleet): void {
+  async save(fleet: Fleet): Promise<void> {
     this.fleets.set(fleet.id, fleet);
   }
 
-  getById(id: string): Fleet {
+  async getById(id: string): Promise<Fleet> {
     const fleet = this.fleets.get(id);
     if (!fleet) {
       throw new Error(`Fleet not found: ${id}`);
@@ -17,10 +17,10 @@ export class InMemoryFleetRepository implements FleetRepository {
     return fleet;
   }
 
-  create(_userId: string): Fleet {
+  async create(_userId: string): Promise<Fleet> {
     const id = `fleet-${this.nextId++}`;
     const fleet = new Fleet(id);
-    this.save(fleet);
+    await this.save(fleet);
     return fleet;
   }
 }
