@@ -2,16 +2,24 @@
   "name": "backend",
   "version": "1.0.0",
   "scripts": {
-    "test": "cucumber-js"
+    "fleet": "ts-node src/cli.ts",
+    "test:default": "cucumber-js --profile default",
+    "test": "cucumber-js --profile postgres",
+    "test:critical": "cucumber-js --tags @critical --profile postgres"
   },
   "devDependencies": {
     "@cucumber/cucumber": "^12.7.0",
     "@types/node": "^25.5.0",
+    "@types/pg": "^8.20.0",
     "ts-node": "^10.0.0",
     "typescript": "^5.0.0"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "commander": "^14.0.3",
+    "pg": "^8.20.0"
+  }
 }
