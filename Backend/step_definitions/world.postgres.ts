@@ -5,8 +5,7 @@ import { Vehicle } from '../src/Domain/Entities/Vehicle';
 import { Location } from '../src/Domain/ValueObjects/Location';
 import { FleetRepository } from '../src/Domain/Repositories/FleetRepository';
 import { PostgresFleetRepository } from '../src/Infra/PostgresFleetRepository';
-
-const DATABASE_URL = process.env.DATABASE_URL || 'postgresql://localhost:5432/fleet_test';
+import { DATABASE_CONFIG } from '../src/Infra/Config/database';
 
 export class FleetWorld extends World {
   myFleet!: Fleet;
@@ -16,20 +15,23 @@ export class FleetWorld extends World {
   error: Error | null = null;
   repository!: FleetRepository;
   pool!: Pool;
+
+  constructor(options: ConstructorParameters<typeof World>[0]) {
+    super(options);
+    
+    this.pool = new Pool(DATABASE_CONFIG);
+    this.repository = new PostgresFleetRepository(this.pool);
+  }
 }
 
 setWorldConstructor(FleetWorld);
 
 Before(async function (this: FleetWorld) {
-  this.pool = new Pool({ connectionString: DATABASE_URL });
-  const repo = new PostgresFleetRepository(this.pool);
-  await repo.init();
+  await this.repository.init();
 
   await this.pool.query('DELETE FROM fleet_vehicles');
   await this.pool.query('DELETE FROM vehicles');
   await this.pool.query('DELETE FROM fleets');
-
-  this.repository = repo;
 });
 
 After(async function (this: FleetWorld) {

@@ -1,12 +1,12 @@
 import { Location } from '../ValueObjects/Location';
-import { VehicleAlreadyParkedError } from '../Exceptions/VehicleAlreadyParkedError';
+import { DomainError } from '../Exceptions/DomainError';
 
 export class Vehicle {
   private _location: Location | null = null;
 
   constructor(private readonly _plateNumber: string) {
     if (!_plateNumber) {
-      throw new Error('Plate number is required');
+      throw new DomainError('Plate number is required');
     }
   }
 
@@ -20,7 +20,7 @@ export class Vehicle {
 
   park(location: Location): void {
     if (this._location && this._location.equals(location)) {
-      throw new VehicleAlreadyParkedError();
+      throw new DomainError('Vehicle is already parked at this location');
     }
     this._location = location;
   }

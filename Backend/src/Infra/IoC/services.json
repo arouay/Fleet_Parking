@@ -1,0 +1,26 @@
+[
+  {
+    "name": "fleetRepository",
+    "module": "../PostgresFleetRepository",
+    "class": "PostgresFleetRepository",
+    "dependencies": ["pool"]
+  },
+  {
+    "name": "createFleetHandler",
+    "module": "../../App/Handlers/CreateFleetHandler",
+    "class": "CreateFleetHandler",
+    "dependencies": ["fleetRepository"]
+  },
+  {
+    "name": "registerVehicleHandler",
+    "module": "../../App/Handlers/RegisterVehicleHandler",
+    "class": "RegisterVehicleHandler",
+    "dependencies": ["fleetRepository"]
+  },
+  {
+    "name": "parkVehicleHandler",
+    "module": "../../App/Handlers/ParkVehicleHandler",
+    "class": "ParkVehicleHandler",
+    "dependencies": ["fleetRepository"]
+  }
+]

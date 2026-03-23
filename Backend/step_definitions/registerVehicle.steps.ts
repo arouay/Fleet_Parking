@@ -5,7 +5,7 @@ import { CreateFleetCommand } from '../src/App/Commands/CreateFleetCommand';
 import { CreateFleetHandler } from '../src/App/Handlers/CreateFleetHandler';
 import { RegisterVehicleCommand } from '../src/App/Commands/RegisterVehicleCommand';
 import { RegisterVehicleHandler } from '../src/App/Handlers/RegisterVehicleHandler';
-import { VehicleAlreadyRegisteredError } from '../src/Domain/Exceptions/VehicleAlreadyRegisteredError';
+import { DomainError } from '../src/Domain/Exceptions/DomainError';
 import { FleetWorld } from './world';
 
 Given('my fleet', async function (this: FleetWorld) {
@@ -61,5 +61,6 @@ Then('this vehicle should be part of my vehicle fleet', async function (this: Fl
 
 Then('I should be informed this this vehicle has already been registered into my fleet', function (this: FleetWorld) {
   assert.notStrictEqual(this.error, null);
-  assert.ok(this.error instanceof VehicleAlreadyRegisteredError);
+  assert.ok(this.error instanceof DomainError);
+  assert.strictEqual(this.error!.message, 'This vehicle has already been registered into this fleet');
 });

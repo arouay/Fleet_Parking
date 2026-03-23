@@ -1,4 +1,4 @@
-import { setWorldConstructor, World, After } from '@cucumber/cucumber';
+import { setWorldConstructor, World, After, Before } from '@cucumber/cucumber';
 import { Fleet } from '../src/Domain/Entities/Fleet';
 import { Vehicle } from '../src/Domain/Entities/Vehicle';
 import { Location } from '../src/Domain/ValueObjects/Location';
@@ -16,12 +16,16 @@ export class FleetWorld extends World {
 
   constructor(options: ConstructorParameters<typeof World>[0]) {
     super(options);
-    this.sqliteRepo = new SqliteFleetRepository(':memory:');
+    this.sqliteRepo = new SqliteFleetRepository();
     this.repository = this.sqliteRepo;
   }
 }
 
 setWorldConstructor(FleetWorld);
+
+Before(async function (this: FleetWorld) {
+  await this.repository.init();
+});
 
 After(function (this: FleetWorld) {
   this.sqliteRepo.close();

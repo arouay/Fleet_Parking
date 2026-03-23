@@ -5,7 +5,8 @@
     "fleet": "ts-node src/cli.ts",
     "test": "cucumber-js --profile default && cucumber-js --profile sqlite --tags @critical",
     "test:memory": "cucumber-js --profile default",
-    "test:sqlite": "cucumber-js --profile sqlite"
+    "test:sqlite": "cucumber-js --profile sqlite",
+    "test:pg": "cucumber-js --profile postgres"
   },
   "devDependencies": {
     "@cucumber/cucumber": "^12.7.0",

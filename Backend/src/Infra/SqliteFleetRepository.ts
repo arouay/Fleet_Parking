@@ -3,17 +3,16 @@ import { Fleet } from '../Domain/Entities/Fleet';
 import { Vehicle } from '../Domain/Entities/Vehicle';
 import { Location } from '../Domain/ValueObjects/Location';
 import { FleetRepository } from '../Domain/Repositories/FleetRepository';
-import { FleetNotFoundError } from '../Domain/Exceptions/FleetNotFoundError';
+import { DomainError } from '../Domain/Exceptions/DomainError';
 
 export class SqliteFleetRepository implements FleetRepository {
   private db: Database.Database;
 
-  constructor(dbPath: string = ':memory:') {
-    this.db = new Database(dbPath);
-    this.init();
+  constructor() {
+    this.db = new Database();
   }
 
-  private init(): void {
+  async init(): Promise<void> {
     this.db.exec(`
       CREATE TABLE IF NOT EXISTS fleets (
         id TEXT PRIMARY KEY,
@@ -79,7 +78,7 @@ export class SqliteFleetRepository implements FleetRepository {
     const row = this.db.prepare('SELECT id FROM fleets WHERE id = ?').get(id) as { id: string } | undefined;
 
     if (!row) {
-      throw new FleetNotFoundError(id);
+      throw new DomainError(`Fleet not found: ${id}`);
     }
 
     const fleet = new Fleet(row.id);
