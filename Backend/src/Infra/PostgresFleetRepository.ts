@@ -3,6 +3,7 @@ import { Fleet } from '../Domain/Entities/Fleet';
 import { Vehicle } from '../Domain/Entities/Vehicle';
 import { Location } from '../Domain/ValueObjects/Location';
 import { FleetRepository } from '../Domain/Repositories/FleetRepository';
+import { FleetNotFoundError } from '../Domain/Exceptions/FleetNotFoundError';
 
 export class PostgresFleetRepository implements FleetRepository {
   constructor(private readonly pool: Pool) {}
@@ -88,7 +89,7 @@ export class PostgresFleetRepository implements FleetRepository {
     );
 
     if (fleetResult.rows.length === 0) {
-      throw new Error(`Fleet not found: ${id}`);
+      throw new FleetNotFoundError(id);
     }
 
     const fleet = new Fleet(fleetResult.rows[0].id);

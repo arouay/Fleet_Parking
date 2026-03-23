@@ -3,6 +3,7 @@ import { Fleet } from '../Domain/Entities/Fleet';
 import { Vehicle } from '../Domain/Entities/Vehicle';
 import { Location } from '../Domain/ValueObjects/Location';
 import { FleetRepository } from '../Domain/Repositories/FleetRepository';
+import { FleetNotFoundError } from '../Domain/Exceptions/FleetNotFoundError';
 
 export class SqliteFleetRepository implements FleetRepository {
   private db: Database.Database;
@@ -78,7 +79,7 @@ export class SqliteFleetRepository implements FleetRepository {
     const row = this.db.prepare('SELECT id FROM fleets WHERE id = ?').get(id) as { id: string } | undefined;
 
     if (!row) {
-      throw new Error(`Fleet not found: ${id}`);
+      throw new FleetNotFoundError(id);
     }
 
     const fleet = new Fleet(row.id);

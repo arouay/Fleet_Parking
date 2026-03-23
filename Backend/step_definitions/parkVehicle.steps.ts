@@ -3,6 +3,7 @@ import assert from 'node:assert';
 import { Location } from '../src/Domain/ValueObjects/Location';
 import { ParkVehicleCommand } from '../src/App/Commands/ParkVehicleCommand';
 import { ParkVehicleHandler } from '../src/App/Handlers/ParkVehicleHandler';
+import { VehicleAlreadyParkedError } from '../src/Domain/Exceptions/VehicleAlreadyParkedError';
 import { FleetWorld } from './world';
 
 Given('a location', function (this: FleetWorld) {
@@ -54,5 +55,5 @@ Then('the known location of my vehicle should verify this location', async funct
 
 Then('I should be informed that my vehicle is already parked at this location', function (this: FleetWorld) {
   assert.notStrictEqual(this.error, null);
-  assert.strictEqual(this.error!.message, 'Vehicle is already parked at this location');
+  assert.ok(this.error instanceof VehicleAlreadyParkedError);
 });

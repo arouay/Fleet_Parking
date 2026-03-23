@@ -1,5 +1,6 @@
 import { Fleet } from '../Domain/Entities/Fleet';
 import { FleetRepository } from '../Domain/Repositories/FleetRepository';
+import { FleetNotFoundError } from '../Domain/Exceptions/FleetNotFoundError';
 
 export class InMemoryFleetRepository implements FleetRepository {
   private fleets: Map<string, Fleet> = new Map();
@@ -12,7 +13,7 @@ export class InMemoryFleetRepository implements FleetRepository {
   async getById(id: string): Promise<Fleet> {
     const fleet = this.fleets.get(id);
     if (!fleet) {
-      throw new Error(`Fleet not found: ${id}`);
+      throw new FleetNotFoundError(id);
     }
     return fleet;
   }

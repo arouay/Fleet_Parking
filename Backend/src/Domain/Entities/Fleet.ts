@@ -1,5 +1,8 @@
 import { Vehicle } from './Vehicle';
 import { Location } from '../ValueObjects/Location';
+import { VehicleAlreadyRegisteredError } from '../Exceptions/VehicleAlreadyRegisteredError';
+import { VehicleNotFoundError } from '../Exceptions/VehicleNotFoundError';
+import { VehicleNotRegisteredError } from '../Exceptions/VehicleNotRegisteredError';
 
 export class Fleet {
   private readonly vehicles: Map<string, Vehicle> = new Map();
@@ -12,7 +15,7 @@ export class Fleet {
 
   registerVehicle(vehicle: Vehicle): void {
     if (this.vehicles.has(vehicle.plateNumber)) {
-      throw new Error('This vehicle has already been registered into this fleet');
+      throw new VehicleAlreadyRegisteredError();
     }
     this.vehicles.set(vehicle.plateNumber, vehicle);
   }
@@ -28,14 +31,14 @@ export class Fleet {
   getVehicle(plateNumber: string): Vehicle {
     const vehicle = this.vehicles.get(plateNumber);
     if (!vehicle) {
-      throw new Error('Vehicle not found in this fleet');
+      throw new VehicleNotFoundError(plateNumber);
     }
     return vehicle;
   }
 
   parkVehicle(vehicle: Vehicle, location: Location): void {
     if (!this.hasVehicle(vehicle)) {
-      throw new Error('Vehicle is not registered in this fleet');
+      throw new VehicleNotRegisteredError();
     }
     vehicle.park(location);
   }
@@ -43,7 +46,7 @@ export class Fleet {
   getVehicleLocation(vehicle: Vehicle): Location | null {
     const registered = this.vehicles.get(vehicle.plateNumber);
     if (!registered) {
-      throw new Error('Vehicle is not registered in this fleet');
+      throw new VehicleNotRegisteredError();
     }
     return registered.location;
   }

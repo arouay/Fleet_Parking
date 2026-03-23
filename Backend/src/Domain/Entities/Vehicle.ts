@@ -1,4 +1,5 @@
 import { Location } from '../ValueObjects/Location';
+import { VehicleAlreadyParkedError } from '../Exceptions/VehicleAlreadyParkedError';
 
 export class Vehicle {
   private _location: Location | null = null;
@@ -19,7 +20,7 @@ export class Vehicle {
 
   park(location: Location): void {
     if (this._location && this._location.equals(location)) {
-      throw new Error('Vehicle is already parked at this location');
+      throw new VehicleAlreadyParkedError();
     }
     this._location = location;
   }
