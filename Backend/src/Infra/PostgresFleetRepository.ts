@@ -37,11 +37,6 @@ export class PostgresFleetRepository implements FleetRepository {
     try {
       await client.query('BEGIN');
 
-      await client.query(
-        'INSERT INTO fleets (id, user_id) VALUES ($1, $2) ON CONFLICT (id) DO NOTHING',
-        [fleet.id, fleet.id]
-      );
-
       const vehiclesResult = await client.query(
         'SELECT plate_number FROM fleet_vehicles WHERE fleet_id = $1',
         [fleet.id]

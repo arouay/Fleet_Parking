@@ -38,10 +38,6 @@ export class SqliteFleetRepository implements FleetRepository {
 
   async save(fleet: Fleet): Promise<void> {
     const saveTransaction = this.db.transaction(() => {
-      this.db.prepare(
-        'INSERT OR IGNORE INTO fleets (id, user_id) VALUES (?, ?)'
-      ).run(fleet.id, fleet.id);
-
       const existingRows = this.db.prepare(
         'SELECT plate_number FROM fleet_vehicles WHERE fleet_id = ?'
       ).all(fleet.id) as Array<{ plate_number: string }>;
